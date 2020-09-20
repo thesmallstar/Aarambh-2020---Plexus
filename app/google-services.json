@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "452128282521",
+    "firebase_url": "https://plexus-dfbf7.firebaseio.com",
+    "project_id": "plexus-dfbf7",
+    "storage_bucket": "plexus-dfbf7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452128282521:android:704f4954177257780ca508",
+        "android_client_info": {
+          "package_name": "com.kinshuu.plexus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452128282521-p22jkck6ltla4oip0rand0q07s9j7cfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinshuu.plexus",
+            "certificate_hash": "269c3e14a31b90617d7ffc884537a6efeab08040"
+          }
+        },
+        {
+          "client_id": "452128282521-fr6e72662stklq407qamhl887fjnr4n4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDcRvwkYRQDiYa8VVvLiL9vw_l-57KrIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452128282521-fr6e72662stklq407qamhl887fjnr4n4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
