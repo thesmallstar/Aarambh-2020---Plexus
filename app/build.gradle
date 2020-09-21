@@ -49,4 +49,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation("com.squareup.okhttp3:okhttp:4.2.0")
 
+    //location
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
 }

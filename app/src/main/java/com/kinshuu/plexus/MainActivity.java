@@ -21,6 +21,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import io.chirp.chirpsdk.ChirpSDK;
+
+import static com.kinshuu.plexus.Emergency.CHIRP_APP_KEY;
+import static com.kinshuu.plexus.Emergency.CHIRP_APP_SECRET;
+import static com.kinshuu.plexus.Emergency.chirp;
+
 public class MainActivity extends AppCompatActivity {
     //Constants
     String TAG="MyLOGS";
@@ -45,10 +51,14 @@ public class MainActivity extends AppCompatActivity {
         BTNsignout=findViewById(R.id.BTNsignout);
         BTNemergency=findViewById(R.id.BTNemergency);
 
+
+        chirp = new ChirpSDK(this, CHIRP_APP_KEY, CHIRP_APP_SECRET);
+        startService(new Intent(getApplicationContext(), Listener.class));
+
         BTNemergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this,com.kinshuu.plexus.PublicEmergency.class);
+                Intent intent= new Intent(MainActivity.this,com.kinshuu.plexus.Emergency.class);
                 startActivity(intent);
             }
         });

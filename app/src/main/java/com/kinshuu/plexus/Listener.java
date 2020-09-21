@@ -9,13 +9,19 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import io.chirp.chirpsdk.interfaces.ChirpEventListener;
 import io.chirp.chirpsdk.models.ChirpError;
@@ -25,7 +31,9 @@ import static com.kinshuu.plexus.Emergency.chirp;
 public class Listener extends Service {
 
     String TAG="MyLOGS";
-    String recieved="null";
+//    String recieved="null";
+    Set<String> recieved;
+    public static Map<String,String> PhDirectory = new HashMap<>();
 
     private static final int NOTIF_ID = 1;
     private static final String NOTIF_CHANNEL_ID = "Channel_Id";
@@ -35,6 +43,7 @@ public class Listener extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d(TAG, "onBind: ");
         // TODO: Return the communication channel to the service.
         ChirpError error = chirp.start(true, true);
         if (error.getCode() > 0) {
@@ -47,12 +56,31 @@ public class Listener extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
+
+        PhDirectory.put("M","6265502674");
+        PhDirectory.put("F","9730282700");
+        PhDirectory.put("P","8956759927");
+
+
+        final Handler handler = new Handler();
+        final int delay = 5000; //milliseconds
+
+        Log.d(TAG, "onStartCommand: ");
         ChirpError error = chirp.start(true, true);
         if (error.getCode() > 0) {
             Log.e("ChirpError: ", error.getMessage());
         } else {
             Log.v(TAG, "Started ChirpSDK");
         }
+
+        handler.postDelayed(new Runnable(){
+            public void run(){
+                //do something
+                recieved= new HashSet<>();
+                handler.postDelayed(this, delay);
+                Log.d(TAG, "run: variable reset");
+            }
+        }, delay);
 
         ChirpEventListener chirpEventListener = new ChirpEventListener() {
             @Override
@@ -63,7 +91,7 @@ public class Listener extends Service {
                     if(!isNetworkAvailable()) {
                         //sending w/o signal
                         Log.d(TAG, "onReceived: identifier is "+identifier);
-                        if(identifier.equals(recieved)){
+                        if(recieved.contains(identifier)){
                             Toast.makeText(Listener.this, "Repeated Receive, not forwarding", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -76,7 +104,15 @@ public class Listener extends Service {
                                 Log.v("ChirpSDK: ", "Sent " + identifier);
                             }
                         }
-                        recieved=identifier;
+                        recieved.add(identifier);
+                    }
+                    else{
+                        Toast.makeText(Listener.this, "Network Available, sending text and Firebase.", Toast.LENGTH_SHORT).show();
+                        SmsManager smsManager = SmsManager.getDefault();
+                        String number=PhDirectory.get(identifier.charAt(0));
+                        String mlat=identifier.substring(1,3);
+                        String mLong=identifier.substring(4,6);
+                        smsManager.sendTextMessage(number, null, "I am sending my location for precaution for my safety. lat = 23.17" + mlat + " and long= 80.02" + mLong, null, null);
                     }
                 } else {
                     Log.e("ChirpError: ", "Decode failed");
