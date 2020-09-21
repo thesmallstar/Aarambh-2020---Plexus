@@ -11,13 +11,16 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import io.chirp.chirpsdk.interfaces.ChirpEventListener;
@@ -30,6 +33,7 @@ public class Listener extends Service {
     String TAG="MyLOGS";
 //    String recieved="null";
     Set<String> recieved;
+    public static Map<String,String> PhDirectory = new HashMap<>();
 
     private static final int NOTIF_ID = 1;
     private static final String NOTIF_CHANNEL_ID = "Channel_Id";
@@ -53,6 +57,12 @@ public class Listener extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
 
+        Log.d(TAG, "onStartCommand: Adding numbers in database");
+
+        PhDirectory.put("M","6265502674");
+        PhDirectory.put("F","9730282700");
+        PhDirectory.put("P","8956759927");
+        
         final Handler handler = new Handler();
         final int delay = 5000; //milliseconds
 
@@ -96,6 +106,14 @@ public class Listener extends Service {
                             }
                         }
                         recieved.add(identifier);
+                    }
+                    else{
+                        Toast.makeText(Listener.this, "Network Available, sending text and Firebase.", Toast.LENGTH_SHORT).show();
+                        SmsManager smsManager = SmsManager.getDefault();
+                        String number=PhDirectory.get(identifier.charAt(0));
+                        String mlat=identifier.substring(1,3);
+                        String mLong=identifier.substring(4,6);
+                        smsManager.sendTextMessage(number, null, "I am sending my location for precaution for my safety. lat = 23.17" + mlat + " and long= 80.02" + mLong, null, null);
                     }
                 } else {
                     Log.e("ChirpError: ", "Decode failed");

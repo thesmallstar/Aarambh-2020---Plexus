@@ -1,3 +1,4 @@
+//
 package com.kinshuu.plexus;
 
 import androidx.appcompat.app.ActionBar;
@@ -96,8 +97,8 @@ public class PublicEmergency extends AppCompatActivity {
         description = (EditText)findViewById(R.id.des);
         Button submitButton = (Button) findViewById(R.id.submit);
         Button addPhoto = (Button) findViewById(R.id.addPhoto);
-        Toast t = Toast.makeText(this.getApplicationContext(), "Public Emergency", Toast.LENGTH_SHORT);
-        t.show();
+//        Toast t = Toast.makeText(this.getApplicationContext(), "Public Emergency", Toast.LENGTH_SHORT);
+//        t.show();
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override

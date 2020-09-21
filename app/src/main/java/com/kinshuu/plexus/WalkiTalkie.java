@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,7 @@ public class WalkiTalkie extends ConnectionsActivity {
     @Nullable
     private Animator mCurrentAnimator;
 
+    private ImageView img2, img1, img3, img4;
 
     private TextView mDebugLogView;
 
@@ -123,9 +125,13 @@ public class WalkiTalkie extends ConnectionsActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(0));
         mPreviousStateView = (TextView) findViewById(R.id.previous_state);
         mCurrentStateView = (TextView) findViewById(R.id.current_state);
-
+        img4 = findViewById(R.id.imageView4);
+        img3 = findViewById(R.id.imageView3);
+        img2 = findViewById(R.id.imageView2);
+        img1 = findViewById(R.id.imageView);
         mDebugLogView = (TextView) findViewById(R.id.debug_log);
-        mDebugLogView.setVisibility(DEBUG ? View.VISIBLE : View.GONE);
+        mDebugLogView.setVisibility(View.INVISIBLE);
+        //mDebugLogView.setVisibility(DEBUG ? View.VISIBLE : View.GONE);
         mDebugLogView.setMovementMethod(new ScrollingMovementMethod());
 
         mName = generateRandomName();
@@ -200,7 +206,7 @@ public class WalkiTalkie extends ConnectionsActivity {
 
     @Override
     protected void onConnectionInitiated(Endpoint endpoint, ConnectionInfo connectionInfo) {
-        mConnectedColor = COLORS[connectionInfo.getAuthenticationToken().hashCode() % COLORS.length];
+        mConnectedColor = COLORS[3];
 
         acceptConnection(endpoint);
     }
@@ -210,6 +216,10 @@ public class WalkiTalkie extends ConnectionsActivity {
         Toast.makeText(
                 this, getString(R.string.toast_connected, endpoint.getName()), Toast.LENGTH_SHORT)
                 .show();
+
+        img1.setVisibility(View.INVISIBLE);
+        img2.setVisibility(View.VISIBLE);
+        img4.setVisibility(View.INVISIBLE);
         setState(State.CONNECTED);
     }
 
@@ -218,6 +228,8 @@ public class WalkiTalkie extends ConnectionsActivity {
         Toast.makeText(
                 this, getString(R.string.toast_disconnected, endpoint.getName()), Toast.LENGTH_SHORT)
                 .show();
+        img1.setVisibility(View.VISIBLE);
+        img2.setVisibility(View.INVISIBLE);
         setState(State.SEARCHING);
     }
 
@@ -257,6 +269,11 @@ public class WalkiTalkie extends ConnectionsActivity {
         switch (newState) {
             case SEARCHING:
                 disconnectFromAllEndpoints();
+                bt.setVisibility(View.INVISIBLE);
+                img3.setVisibility(View.INVISIBLE);
+                img4.setVisibility(View.VISIBLE);
+                img1.setVisibility(View.VISIBLE);
+                img2.setVisibility(View.INVISIBLE);
                 startDiscovering();
                 startAdvertising();
                 break;

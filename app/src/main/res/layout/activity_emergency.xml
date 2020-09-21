@@ -14,19 +14,49 @@
         android:background="@drawable/ic_sendbtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/ETmsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/border"
         android:ems="10"
-        android:hint="Type here"
+        android:gravity="center_horizontal"
+        android:hint="Choose emergency from \n above to instantly get help. \n OR \n Type custom message."
         android:inputType="textPersonName"
         android:maxLength="7"
         app:layout_constraintBottom_toTopOf="@+id/BTNsend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/spinnerEmergency"
+        app:layout_constraintStart_toStartOf="@+id/spinnerEmergency"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Spinner
+        android:id="@+id/spinnerEmergency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        app:layout_constraintEnd_toEndOf="@+id/BTNsend"
+        app:layout_constraintStart_toStartOf="@+id/BTNsend"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emergency message sent to below zone."
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerEmergency"
+        app:layout_constraintStart_toStartOf="@+id/spinnerEmergency" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Message"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/spinnerEmergency"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerEmergency" />
 </androidx.constraintlayout.widget.ConstraintLayout>
